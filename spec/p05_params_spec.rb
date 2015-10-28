@@ -1,6 +1,7 @@
 require 'webrick'
 require_relative '../lib/phase5/params'
 require_relative '../lib/phase5/controller_base'
+require 'byebug'
 
 describe Phase5::Params do
   before(:all) do
@@ -71,6 +72,7 @@ describe Phase5::Params do
     it "handles multiple nested keys and values" do
       allow(req).to receive(:body) { "user[fname]=rebecca&user[lname]=smith" }
       params = Phase5::Params.new(req)
+      # debugger
       expect(params["user"]["fname"]).to eq("rebecca")
       expect(params["user"]["lname"]).to eq("smith")
     end
