@@ -1,29 +1,28 @@
 class Flash
+  FLASH_NAME = 'flash'
 
-  attr_reader :flash
-
-  def initialize(req)
-    cookie = extract_cookie(req.cookies)
-    if cookie
-      @flash = JSON.parse(cookie.value)
-    end
-    @flash ||= {}
-  end
-
-  def extract_cookie(cookies)
-    cookies.find { |el| el.name == APP_NAME }
+	def initialize(req)
+    @flash_send = {}
+    cookie = req.cookies.find { |cookie| cookie.name == FLASH_NAME }
+    @flash_display = cookie ? JSON.parse(cookie.value) : {}
   end
 
   def [](key)
-    flash[key]
+    @flash_display[key]
   end
 
-  def []=(key, value)
-    flash[key] = value
+  def []=(key, val)
+    @flash_send[key] = val
   end
 
-  def serialize
-    self.to_json
+  def now
+    @flash_send
+  end
+
+  def store_flash(res)
+    flash_cookie = WEBrick::Cookie.new(FLASH_NAME, @flash_send.to_json)
+    flash_cookie.path = '/'
+    res.cookies << flash_cookie
   end
 
 end

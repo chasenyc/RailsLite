@@ -6,12 +6,12 @@ module Phase4
   class ControllerBase < Phase3::ControllerBase
     def redirect_to(url)
       super(url)
-      session.store_session(res, flash.serialize)
+      store_session_and_flash
     end
 
     def render_content(content, content_type)
       super(content, content_type)
-      session.store_session(res, flash.serialize)
+      store_session_and_flash
     end
 
     # method exposing a `Session` object
@@ -21,6 +21,11 @@ module Phase4
 
     def flash
       @flash ||= Flash.new(req)
+    end
+
+    def store_session_and_flash
+      session.store_session(res)
+      flash.store_flash(res)
     end
   end
 end
