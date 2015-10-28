@@ -10,13 +10,10 @@ module Phase5
       super(req, res)
       @params = Params.new(req, route_params)
     end
-<<<<<<< HEAD
 
     def invoke_action(action_name)
       self.send(action_name)
     end
-    
-=======
->>>>>>> 4b92f6bfdf2e070f5d99d8a734f1783cb73cbe0e
+
   end
 end

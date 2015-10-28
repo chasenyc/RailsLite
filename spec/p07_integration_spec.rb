@@ -1,10 +1,7 @@
 require 'webrick'
 require 'phase6/controller_base'
 require 'phase6/router'
-<<<<<<< HEAD
 require 'byebug'
-=======
->>>>>>> 4b92f6bfdf2e070f5d99d8a734f1783cb73cbe0e
 
 describe "the symphony of things" do
   let(:req) { WEBrick::HTTPRequest.new(Logger: nil) }
@@ -34,10 +31,6 @@ describe "the symphony of things" do
       allow(req).to receive(:path) { "/statuses/1" }
       allow(req).to receive(:request_method) { :get }
       route.run(req, res)
-<<<<<<< HEAD
-      # debugger
-=======
->>>>>>> 4b92f6bfdf2e070f5d99d8a734f1783cb73cbe0e
       expect(res.body).to eq("testing")
     end
 

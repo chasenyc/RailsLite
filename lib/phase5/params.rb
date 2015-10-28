@@ -36,26 +36,21 @@ module Phase5
     # should return
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
-      results = {}
-      queries = www_encoded_form.split('&')
+      params = {}
+      queries = URI.decode_www_form(www_encoded_form)
       queries.each do |query|
-        values, result = query.split('=')
-        values = parse_key(values)
-        if values.is_a?(String)
-          first_hash = {values => result}
-        else
-          first_hash = {values.pop => result}
-          until values.empty?
-            first_hash = { values.pop => first_hash }
+        scope = params
+        keys, value = parse_key(query.first), query.last
+        keys.each do |key|
+          unless scope.keys.include?(key)
+            key == keys.last ? scope[key] = value : scope[key] = {}
           end
+          scope = scope[key]
         end
-        results.merge!(first_hash) { |key, oldval, newval| newval.merge!(oldval) }
       end
-      results
+      params
     end
 
-    # this should return an array
-    # user[address][street] should return ['user', 'address', 'street']
     def parse_key(key)
       key.split(/\]\[|\[|\]/)
     end
