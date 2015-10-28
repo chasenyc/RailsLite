@@ -14,12 +14,11 @@ module Phase5
       @params = {}
       @params.merge!(parse_www_encoded_form(req.query_string)) if req.query_string
       @params.merge!(parse_www_encoded_form(req.body)) if req.body
-      new_route_params = route_params.stringify_keys
-      @params.merge!(new_route_params)
+      @params.merge!(route_params)
     end
 
     def [](key)
-      @params[key.to_s]
+      @params[key.to_s] || @params[key.to_sym]
     end
 
     # this will be useful if we want to `puts params` in the server log
