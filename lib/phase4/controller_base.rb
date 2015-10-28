@@ -1,6 +1,7 @@
 require_relative '../phase3/controller_base'
 require_relative './session'
 require_relative './flash'
+require_relative './csrf'
 
 module Phase4
   class ControllerBase < Phase3::ControllerBase
@@ -14,6 +15,10 @@ module Phase4
       store_session_and_flash
     end
 
+    def form_authenticity_token
+      csrf.generate_token
+    end
+
     # method exposing a `Session` object
     def session
       @session ||= Session.new(req)
@@ -23,13 +28,14 @@ module Phase4
       @flash ||= Flash.new(req)
     end
 
-    def CSRF
-      @CSRF ||= CSRF.new(req)
+    def csrf
+      @csrf ||= Csrf.new(req)
     end
 
     def store_session_and_flash
       session.store_session(res)
       flash.store_flash(res)
+      csrf.store_csrf(res)
     end
   end
 end

@@ -15,9 +15,16 @@ module Phase6
       pattern =~ req.path
     end
 
+    def check_auth(req)
+      cookies = req.cookies.find { |cookie| cookie.name == "csrf" }
+      debugger
+    end
+
     # use pattern to pull out route params (save for later?)
     # instantiate controller and call controller action
     def run(req, res)
+      check_auth(req) if [:post, :patch, :delete].include?(req.request_method)
+
       params = pattern.match(req.path)
       route_p = {}
       params.names.each do |name|
