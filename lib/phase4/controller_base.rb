@@ -23,6 +23,10 @@ module Phase4
       @flash ||= Flash.new(req)
     end
 
+    def CSRF
+      @CSRF ||= CSRF.new(req)
+    end
+
     def store_session_and_flash
       session.store_session(res)
       flash.store_flash(res)
