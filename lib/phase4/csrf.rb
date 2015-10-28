@@ -2,7 +2,6 @@ require 'securerandom'
 
 class Csrf
 
-
   CSRF_NAME = 'csrf'
 
   def initialize(req)

@@ -16,8 +16,12 @@ module Phase6
     end
 
     def check_auth(req)
-      cookies = req.cookies.find { |cookie| cookie.name == "csrf" }
-      debugger
+      cookie = req.cookies.find { |cookie| cookie.name == "csrf" }
+      raise "invalid authenticity token" unless cookie
+      session_csrf = JSON.parse(cookie.value)
+      unless session_csrf.includes(req.body.params['authenticity_token'])
+        raise "invalid authenticity token"
+      end
     end
 
     # use pattern to pull out route params (save for later?)

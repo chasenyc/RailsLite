@@ -14,7 +14,7 @@ describe "the symphony of things" do
       end
 
       def route_does_params
-        render_content("got ##{ params["id"] } and #{ form_authenticity_token }", "text/text")
+        render_content("got ##{ params["id"] } and form_authenticity_token: #{ form_authenticity_token }", "text/text")
         puts csrf.inspect
       end
 
@@ -32,7 +32,6 @@ describe "the symphony of things" do
       allow(req).to receive(:path) { "/statuses/1" }
       allow(req).to receive(:request_method) { :get }
       route.run(req, res)
-      puts Ctrlr.methods.to_s
       expect(res.body).to eq("testing")
     end
 
