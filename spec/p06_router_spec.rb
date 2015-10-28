@@ -1,6 +1,10 @@
 require 'webrick'
 require 'phase6/router'
 require 'phase6/controller_base'
+<<<<<<< HEAD
+require 'byebug'
+=======
+>>>>>>> 4b92f6bfdf2e070f5d99d8a734f1783cb73cbe0e
 
 describe Phase6::Route do
   let(:req) { WEBrick::HTTPRequest.new(Logger: nil) }
